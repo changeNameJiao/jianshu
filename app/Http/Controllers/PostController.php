@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\StoreCommentRequest;
 use App\Post;
 use Carbon\Carbon;
+use App\User;
+use App\Comment;
+use App\Zan;
 
 class PostController extends Controller
 {
@@ -17,7 +21,7 @@ class PostController extends Controller
      */
     public function index(Post $post)
     {
-    	$posts = $post->orderBy('created_at','desc')->paginate(10);
+    	$posts = $post->orderBy('created_at','desc')->withCount(['comments','zans'])->paginate(10);
     	return view('post/index',compact('posts'));
     }
     /**
@@ -39,7 +43,8 @@ class PostController extends Controller
      */
     public function store(Post $post,StorePostRequest $request)
     {
-    	$result = $post->create($request->except('_token'));
+        $user_id = \Auth::id();
+    	$result = $post->create(array_merge($request->except('_token'),compact('user_id')));
     	if(!$result) return $this->error('文章创建失败');
     	return redirect('posts');
     }
@@ -50,8 +55,9 @@ class PostController extends Controller
      * @param  Post   $post [description]
      * @return [type]       [description]
      */
-    public function show(Post $post)
+    public function show(Post $post,Comment $comment)
     {   
+        $post->load('comments');
     	return view('post/show',compact('post'));
     }
 
@@ -75,6 +81,7 @@ class PostController extends Controller
      */
     public function update(Post $post,StorePostRequest $request)
     {
+        $this->authorize('update', $post);
         $result = $post->update($request->except('_token'));
         if(!$result){
             return $this->error('文章编辑失败');
@@ -90,6 +97,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('destroy',$post);
         $result = $post->delete();
         if(!$result){
             return $this->error('文章删除失败');
@@ -108,4 +116,48 @@ class PostController extends Controller
         $path = $request->file('wangEditorH5File')->storePublicly(md5(time()));
         return asset('/storage/'.$path);
     }
+
+    /**
+     * 发表评论
+     * [comment description]
+     * @param  Post                $post    [description]
+     * @param  Comment             $comment [description]
+     * @param  StoreCommentRequest $request [description]
+     * @return [type]                       [description]
+     */
+    public function comment(Post $post,Comment $comment,StoreCommentRequest $request)
+    {
+        //验证
+        //逻辑 
+        $comment->content = request('content'); 
+        $comment->user_id  = \Auth::id();
+        $result = $post->comments()->save($comment);
+        //重定向
+        if(!$result){
+            return back()->withErrors('评论添加失败');
+        }
+        return back();
+    }
+
+    public function zan(Post $post)
+    {
+        $param['user_id'] = \Auth::id();
+        $param['post_id'] = $post->id;
+        $result = Zan::firstOrCreate($param);
+        if(!$result){
+            return back()->withErrors('点赞失败');
+        }
+        return back();
+    }
+
+    public function unzan(Post $post)
+    {
+        $result = $post->zan(\Auth::id())->delete();
+        if(!$result)
+        {
+            return back()->withErrors('取消赞失败');
+        }
+        return back();
+    }
+
 }
