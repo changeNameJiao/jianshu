@@ -1,10 +1,9 @@
 <?php
 
 namespace App;
+use App\Model;
 
-use App\BaseModel;
-
-class Post extends BaseModel
+class Post extends Model
 {
 	//关联用户
    public function user()

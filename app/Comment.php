@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\BaseModel;
+use App\Model;
 
-class Comment extends BaseModel
+class Comment extends Model
 {
 	//关联文章
     public function post()
