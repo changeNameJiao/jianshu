@@ -13,6 +13,7 @@ use App\Zan;
 
 class PostController extends Controller
 {
+   
     /**
      * 文章列表页
      * [index description]
@@ -20,9 +21,12 @@ class PostController extends Controller
      * @return [type]       [description]
      */
     public function index(Post $post)
-    {
+    {      
+        if(\Auth::check() == false){
+            return redirect('login');
+        }
     	$posts = $post->orderBy('created_at','desc')->withCount(['comments','zans'])->paginate(10);
-    	return view('post/index',compact('posts'));
+        return view('post/index',compact('posts'));  
     }
     /**
      * 创建文章展示页
@@ -33,7 +37,6 @@ class PostController extends Controller
     {
     	return view('post/create');
     }
-
     /**
      * 创建文章逻辑处理
      * [store description]

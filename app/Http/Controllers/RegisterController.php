@@ -22,7 +22,6 @@ class RegisterController extends Controller
         $name = request('name');
         $email = request('email');
         $password = bcrypt(request('password'));
-        // $remember_token = request('_token');
         $user = User::create(compact('name','email','password'));
         if(!$user){
             return $this->error('注册失败');
