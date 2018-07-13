@@ -24,8 +24,8 @@ Route::get('/', function () {
 	Route::post('login','LoginController@login');					//登录逻辑
 	Route::get('logout','LoginController@logout');					//登出逻辑
 
-	Route::get('user/me/setting','LoginController@setting');		//个人设置页面
-	Route::post('user/me/setting','LoginController@settingStore');	//个人设置逻辑
+	Route::get('user/{user}/setting','UserController@setting');		//个人设置页面
+	Route::post('user/{user}/setting','UserController@settingStore');	//个人设置逻辑
 	Route::get('user/{user}','UserController@index');				//个人中心
 	Route::post('user/{user}/fan','UserController@fan');			//关注
 	Route::post('user/{user}/unfan','UserController@unfan');		//取消关注
@@ -49,5 +49,5 @@ Route::get('/', function () {
 	Route::post('topic/{topic}/submit','TopicController@submit'); //专题提交
 
 	//通知
-	Route::get('notice','NoticeController@show');
+	Route::get('notices','NoticeController@show');
  // });

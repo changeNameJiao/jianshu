@@ -3,20 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserSettingRequest;
 use App\User;
 
 class UserController extends Controller
 {
 	//个人设置页面
-    public function setting()
+    public function setting(User $user)
     {
-    	return view('user/setting');
+    	return view('user/setting',compact('user'));
     }
 
     //个人设置逻辑
-    public function storeSetting()
+    public function settingStore(StoreUserSettingRequest $request,User $user)
     {
-
+        //验证
+        //逻辑
+        $name = request('name');
+        if($name != $user->name){
+            if(User::where('name',$name)->count() > 0){
+                return back()->withErrors('用户名称已经被注册');
+            }
+            $user->name = $name;
+        }
+        if($request->file('avatar')){
+            $path = $request->file('avatar')->storePublicly(md5(\Auth::id().time()));
+            $user->avatar = "/storage/". $path;
+        }
+        $result = $user->save();
+        if(!$result){
+            return back()->withErrors('个人信息设置失败');
+        }
+        return back();
+        //重定向
     }
 
     //个人中心

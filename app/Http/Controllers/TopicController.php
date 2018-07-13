@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTopicRequest;
 use App\Topic;
 
 class TopicController extends Controller
@@ -19,7 +20,7 @@ class TopicController extends Controller
     	return view('topic/show',compact('topic','topicposts','posts'));
     }
 
-    public function submit(Topic $topic)
+    public function submit(StoreTopicRequest $request,Topic $topic)
     {
     	//验证
     	//逻辑
