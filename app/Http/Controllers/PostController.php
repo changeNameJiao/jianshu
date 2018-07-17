@@ -22,9 +22,9 @@ class PostController extends Controller
      */
     public function index(Post $post)
     {      
-        if(\Auth::check() == false){
-            return redirect('login');
-        }
+        // if(\Auth::check() == false){
+        //     return redirect('login');
+        // }
     	$posts = $post->orderBy('created_at','desc')->withCount(['comments','zans'])->paginate(10);
         return view('post/index',compact('posts'));  
     }

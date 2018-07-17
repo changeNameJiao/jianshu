@@ -9,9 +9,9 @@ use App\User;
 class UserController extends Controller
 {
 	//个人设置页面
-    public function setting(User $user)
+    public function setting()
     {
-    	return view('user/setting',compact('user'));
+    	return view('user/setting');
     }
 
     //个人设置逻辑
