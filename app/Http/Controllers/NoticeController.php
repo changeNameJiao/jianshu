@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notice;
 
 class NoticeController extends Controller
 {
-    public function show()
+    public function index()
     {
-    	return view('notice/show');
+    	$notices = \Auth::user()->notices;
+    	return view('notice/index',compact('notices'));
     }
 }

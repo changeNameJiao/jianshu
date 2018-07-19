@@ -17,7 +17,7 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <form role="form" action="/admin/notices" method="POST">
-                            <input type="hidden" name="_token" value="RPPMc0lhvtynKELDZljXlz9UZI9uNc55ip1P8GCM">
+                            {{csrf_field()}}
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">标题</label>
@@ -30,6 +30,7 @@
                                     <textarea class="form-control" name="content"></textarea>
                                 </div>
                             </div>
+                            @include('admin.layout.error')
                             <!-- /.box-body -->
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary">提交</button>

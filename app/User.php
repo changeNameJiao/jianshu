@@ -72,4 +72,16 @@ class User extends Authenticatable
     {
         return $this->fans()->where('fan_id',$user)->count();
     }
+
+    //用户收到的所有通知
+    public function notices()
+    {
+        return $this->belongsToMany('\App\Notice','user_notice','user_id','notice_id')->withPivot(['user_id','notice_id']);
+    }
+
+    //给用户发送通知
+    public function addNotice($notice)
+    {
+        return $this->notices()->save($notice);
+    }
 }

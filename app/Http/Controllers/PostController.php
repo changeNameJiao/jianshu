@@ -22,10 +22,8 @@ class PostController extends Controller
      */
     public function index(Post $post)
     {      
-        // if(\Auth::check() == false){
-        //     return redirect('login');
-        // }
     	$posts = $post->orderBy('created_at','desc')->withCount(['comments','zans'])->paginate(10);
+        $posts->load('user');
         return view('post/index',compact('posts'));  
     }
     /**
@@ -58,9 +56,9 @@ class PostController extends Controller
      * @param  Post   $post [description]
      * @return [type]       [description]
      */
-    public function show(Post $post,Comment $comment)
+    public function show(Post $post)
     {   
-        $post->load('comments');
+        $post->load('comments.user');
     	return view('post/show',compact('post'));
     }
 

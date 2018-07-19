@@ -13,7 +13,7 @@ class TopicController extends Controller
     	//专题的文章数
     	$topic = Topic::withCount('postTopics')->find($topic->id);
     	//属于这个专题的所有文章
-    	$topicposts = $topic->posts()->orderBy('created_at','desc')->get();
+    	$topicposts = $topic->posts()->with('user')->orderBy('created_at','desc')->get();
     	//属于我不属于这个专题的文章
     	$posts = \App\Post::authtorBy(\Auth::id())->topicNotBy($topic->id)->get();
     	//dump(\App\Post::AuthtorBy(\Auth::id()));die;

@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::post('/topic/{topic}/submit','TopicController@submit'); //专题提交
 
 	//通知
-	Route::get('/notices','NoticeController@show');
+	Route::get('/notices','NoticeController@index');
 });
 
 include_once('admin.php');

@@ -2,7 +2,7 @@ $.ajaxSetup({
 	headers:{
 		'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
 	}
-})
+});
 var editor = new wangEditor('content');
 
 if(editor.config){
@@ -42,7 +42,7 @@ $(".like-button").click(function(event){
 				target.text('关注');
 				window.history.go(0);
 			}
-		})
+		});
 	}else{
 		$.ajax({
 			url : "/user/" + user_id + "/fan",
@@ -59,7 +59,7 @@ $(".like-button").click(function(event){
 			}	
 		})
 	}
-})
+});
 
 
 

@@ -13,8 +13,23 @@ class PostController extends Controller
 	}
 
 	//文章操作逻辑
-	public function status()
+	public function status(Post $post)
 	{
-		dd(request('post_id'));
+		$this->authorize('post', $post);
+		//验证
+		$this->validate(request(),[
+			'status' => 'required',
+		]);
+		//逻辑
+		$status = request('status');
+		$result = Post::where('id',$post->id)->update(['status'=>$status]);
+		//重定向
+		if($result){
+			return json_encode([
+				'error' => 0,
+				'message' => ''
+			]);
+		}
+
 	}
 }

@@ -1,3 +1,4 @@
+
 @extends('admin.layout.base')
 @section('content')
     <div class="content-wrapper">
@@ -12,24 +13,23 @@
                     <!-- /.box-header -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">增加权限</h3>
+                            <h3 class="box-title">增加用户</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="/admin/permissions/store" method="POST">
-                            <input type="hidden" name="_token" value="RPPMc0lhvtynKELDZljXlz9UZI9uNc55ip1P8GCM">
+                        <form role="form" action="/admin/users" method="POST">
+                           {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label >权限名</label>
+                                    <label for="exampleInputEmail1">用户名</label>
                                     <input type="text" class="form-control" name="name">
                                 </div>
-                            </div>
-                            <div class="box-body">
                                 <div class="form-group">
-                                    <label>描述</label>
-                                    <input type="text" class="form-control" name="description">
+                                    <label for="exampleInputPassword1">密码</label>
+                                    <input type="password" class="form-control" placeholder="Password" name="password">
                                 </div>
                             </div>
+                            @include('admin.layout.error')
                             <!-- /.box-body -->
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary">提交</button>
