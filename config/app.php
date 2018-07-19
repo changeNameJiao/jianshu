@@ -177,6 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class, //debugbar
+        Laravel\Scout\ScoutServiceProvider::class, //laravel-scout
+        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,//laravel-scout-elastic
 
     ],
 

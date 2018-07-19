@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth:web'], function(){
 	Route::get('/posts','PostController@index');
 	Route::get('/posts/create','PostController@create');
 	Route::post('/posts','PostController@store');
+	//文章搜索（要放在详情路由前）
+	Route::get('posts/search','PostController@search');
 	Route::get('/posts/{post}','PostController@show');
 	Route::get('/posts/{post}/edit','PostController@edit');
 	Route::put('/posts/{post}','PostController@update');

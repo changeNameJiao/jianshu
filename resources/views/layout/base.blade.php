@@ -29,8 +29,7 @@
 
 @include('layout.sidebar')
 
-        </div>    
+       
     </div><!-- /.row -->
 </div><!-- /.container -->
-
 @include('layout.footer')

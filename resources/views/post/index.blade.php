@@ -44,14 +44,14 @@
                     <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}}&nbsp;&nbsp;
                         <a href="/user/{{$post->user->id}}">{{$post->user->name}}</a>
                     </p>
-                    {{-- {!! str_limit($post->content,100,'...') !!} --}}
-                    {!! $post->content !!}
+                    {!! str_limit($post->content,280,'...') !!}
+                    {{-- {!! $post->content !!} --}}
                     <p class="blog-post-meta">赞 {{$post->zans_count}}  | 评论 {{$post->comments_count}}</p>
                 </div>
                 @endforeach
                
                 {{$posts->render()}}
-            </div><!-- /.blog-main -->
+            </div>
     </div>
     
 @endsection
